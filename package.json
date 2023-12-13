@@ -1,15 +1,19 @@
 {
   "name": "nodemovie",
   "version": "1.0.0",
-  "description": "",
+  "description": "Application in nodejs to movies",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/server.js"
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Natalye Cavalieri",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
