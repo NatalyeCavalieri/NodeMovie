@@ -20,7 +20,6 @@ class UsersController {
       "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
       [name, email, hashedPassword]
     )
-
     return response.status(201).json()
   }
 
