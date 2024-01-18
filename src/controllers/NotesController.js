@@ -3,11 +3,12 @@ const knex = require("../database/knex")
 
 class NotesController {
   async create(request, response) {
-    const { title, description, rating, tags } = request.body
+    const { title, avatar_url, description, rating, tags } = request.body
     const user_id  = request.user.id
 
     const [notes_id] = await knex("movie_notes").insert({
       title,
+      avatar_url,
       description,
       rating,
       user_id,
@@ -55,6 +56,7 @@ class NotesController {
       .select([
         "movie_notes.id",
         "movie_notes.title",
+        "movie_notes.avatar_url",
         "movie_notes.user_id",
       ])
       .where("movie_notes.user_id", user_id)
