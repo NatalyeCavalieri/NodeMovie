@@ -3,12 +3,11 @@ const knex = require("../database/knex")
 
 class NotesController {
   async create(request, response) {
-    const { title, avatar_url, description, rating, tags } = request.body
+    const { title, description, rating, tags } = request.body
     const user_id  = request.user.id
 
     const [notes_id] = await knex("movie_notes").insert({
       title,
-      avatar_url,
       description,
       rating,
       user_id,
@@ -53,16 +52,17 @@ class NotesController {
     if (tags) {
       const filterTags = tags.split(",").map((tag) => tag.trim())
       notes = await knex("movie_tags")
-      .select([
-        "movie_notes.id",
-        "movie_notes.title",
-        "movie_notes.avatar_url",
-        "movie_notes.user_id",
-      ])
-      .where("movie_notes.user_id", user_id)
-      .whereLike("movie_notes.title", `%${title}%`)
-      .whereIn("name", filterTags)
-      .innerJoin("movie_notes", "movie_notes.id", "movie_tags.notes_id")
+        .select([
+          "movie_notes.id",
+          "movie_notes.title",
+          "movie_notes.avatar_url",
+          "movie_notes.user_id",
+        ])
+        .where("movie_notes.user_id", user_id)
+        .whereLike("movie_notes.title", `%${title}%`)
+        .whereIn("name", filterTags)
+        .groupBy("movie_notes.id")
+        .innerJoin("movie_notes", "movie_notes.id", "movie_tags.notes_id")
     } else {
       notes = await knex("movie_notes")
         .where({ user_id })
